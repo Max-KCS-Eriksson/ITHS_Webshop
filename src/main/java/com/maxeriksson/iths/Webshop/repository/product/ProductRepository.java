@@ -1,7 +1,13 @@
 package com.maxeriksson.iths.Webshop.repository.product;
 
+import com.maxeriksson.iths.Webshop.domain.product.Category;
 import com.maxeriksson.iths.Webshop.domain.product.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends JpaRepository<Product, String> {}
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product, String> {
+
+    List<Product> findByCategory(Category category);
+}
