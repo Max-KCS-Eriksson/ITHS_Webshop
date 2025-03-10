@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products</title>
+</head>
+
+<body>
+  <p>Categories:</p>
+  <ul th:each="category : ${categories}">
+    <li>
+      <a th:href="@{/products/{id}(id=${category.name})}" th:text="${category.name}"></a>
+    </li>
+  </ul>
+
+  <p>Products:</p>
+  <ul th:each="product : ${products}">
+    <li>
+      <a th:href="" th:text="${product.name}"></a>
+    </li>
+  </ul>
+</body>
+
+</html>
