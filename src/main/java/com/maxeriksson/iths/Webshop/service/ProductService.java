@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @ApplicationScope
@@ -30,8 +31,20 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Optional<Product> getProduct(String name) {
+        return productRepository.findById(name);
+    }
+
+    public List<Product> getProductsBy(Category category) {
+        return productRepository.findByCategory(category);
+    }
+
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    public Optional<Category> getCategory(String name) {
+        return categoryRepository.findById(name);
     }
 
     public void delete(Product product) {
