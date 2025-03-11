@@ -29,11 +29,10 @@ public class ProductController {
         return productListView;
     }
 
-    @GetMapping("/{category}")
-    public String getProductsByCategory(
-            Model model, @PathVariable("category") String categoryName) {
+    @GetMapping("/category/{id}")
+    public String getProductsByCategory(Model model, @PathVariable("id") String id) {
         model.addAttribute("categories", service.getAllCategories());
-        Optional<Category> category = service.getCategory(categoryName);
+        Optional<Category> category = service.getCategory(id);
         if (category.isPresent()) {
             model.addAttribute("products", service.getProductsBy(category.get()));
         }
