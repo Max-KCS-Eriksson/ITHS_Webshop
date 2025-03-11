@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,9 +40,17 @@ public class ProductController {
     public ModelAndView searchProductByName(
             ModelMap model, @RequestParam("product_name") String name) {
         model.addAttribute("categories", service.getAllCategories());
-        model.addAttribute("products", service.searchProductByName(name));
 
-        return new ModelAndView(productListView, model);
+        String viewName = productListView;
+        List<Product> results = service.searchProductByName(name);
+        if (results.size() == 1) {
+            String baseUrlPath = this.getClass().getAnnotation(RequestMapping.class).value()[0];
+            viewName = "redirect:" + baseUrlPath + "/" + results.get(0).getName();
+        } else {
+            model.addAttribute("products", results);
+        }
+
+        return new ModelAndView(viewName, model);
     }
 
     @GetMapping("/category/{id}")
