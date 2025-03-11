@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,18 @@ public class ProductService {
 
     public Optional<Product> getProduct(String name) {
         return productRepository.findById(name);
+    }
+
+    public List<Product> searchProductByName(String name) {
+        List<Product> products = new ArrayList<>();
+        name = name.toLowerCase();
+        for (Product product : productRepository.findAll()) {
+            String productName = product.getName().toLowerCase();
+            if (productName.startsWith(name)) {
+                products.add(product);
+            }
+        }
+        return products;
     }
 
     public List<Product> getProductsBy(Category category) {
