@@ -1,6 +1,7 @@
 package com.maxeriksson.iths.Webshop.controller;
 
 import com.maxeriksson.iths.Webshop.domain.product.Category;
+import com.maxeriksson.iths.Webshop.domain.product.Product;
 import com.maxeriksson.iths.Webshop.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ProductController {
 
     private String viewPackage = "product/";
     private String productListView = viewPackage + "product_list";
+    private String productDetailViewView = viewPackage + "product_detail";
 
     @GetMapping
     public String getAll(Model model) {
@@ -38,5 +40,16 @@ public class ProductController {
         }
 
         return productListView;
+    }
+
+    @GetMapping("/{id}")
+    public String getProductDetailView(Model model, @PathVariable("id") String id) {
+        model.addAttribute("categories", service.getAllCategories());
+        Optional<Product> product = service.getProduct(id);
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());
+        }
+
+        return productDetailViewView;
     }
 }
