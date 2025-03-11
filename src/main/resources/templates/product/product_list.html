@@ -15,6 +15,11 @@
     </li>
   </ul>
 
+  <form action="/products" method="POST">
+    <input type="text" name="product_name" value="" />
+    <button type="submit">Search</button>
+  </form>
+
   <p>Products:</p>
   <ul>
     <li th:each="product : ${products}">
