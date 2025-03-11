@@ -9,15 +9,15 @@
 
 <body>
   <p>Categories:</p>
-  <ul th:each="category : ${categories}">
-    <li>
+  <ul>
+    <li th:each="category : ${categories}">
       <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
     </li>
   </ul>
 
   <p>Products:</p>
-  <ul th:each="product : ${products}">
-    <li>
+  <ul>
+    <li th:each="product : ${products}">
       <a th:href="@{/products/{id}(id=${product.name})}" th:text="${product.name}"></a>
     </li>
   </ul>

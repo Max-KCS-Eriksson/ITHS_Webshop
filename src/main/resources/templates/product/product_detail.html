@@ -9,8 +9,8 @@
 
 <body>
   <p>Categories:</p>
-  <ul th:each="category : ${categories}">
-    <li>
+  <ul>
+    <li th:each="category : ${categories}">
       <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
     </li>
   </ul>
