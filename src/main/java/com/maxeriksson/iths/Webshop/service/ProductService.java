@@ -41,7 +41,7 @@ public class ProductService {
         name = name.toLowerCase();
         for (Product product : productRepository.findAll()) {
             String productName = product.getName().toLowerCase();
-            if (productName.startsWith(name)) {
+            if (productName.contains(name)) {
                 products.add(product);
             }
         }
