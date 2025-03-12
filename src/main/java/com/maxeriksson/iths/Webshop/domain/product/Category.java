@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "categories")
@@ -11,6 +12,7 @@ public class Category {
 
     @Id
     @Column(name = "name")
+    @NotEmpty(message = "Name must not be empty")
     private String name;
 
     public Category() {}
