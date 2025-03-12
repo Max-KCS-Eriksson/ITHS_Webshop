@@ -39,11 +39,8 @@ public class ProductService {
     public List<Product> searchProductByName(String name) {
         List<Product> products = new ArrayList<>();
         name = name.toLowerCase();
-        for (Product product : productRepository.findAll()) {
-            String productName = product.getName().toLowerCase();
-            if (productName.contains(name)) {
-                products.add(product);
-            }
+        for (Product product : productRepository.findByNameContaining(name)) {
+            products.add(product);
         }
         return products;
     }
