@@ -59,6 +59,8 @@ public class ProductController {
         Optional<Category> category = service.getCategory(id);
         if (category.isPresent()) {
             model.addAttribute("products", service.getProductsBy(category.get()));
+        } else {
+            return viewPackage + "category_not_found";
         }
 
         return productListView;
@@ -70,6 +72,8 @@ public class ProductController {
         Optional<Product> product = service.getProduct(id);
         if (product.isPresent()) {
             model.addAttribute("product", product.get());
+        } else {
+            return viewPackage + "product_not_found";
         }
 
         return productDetailViewView;
