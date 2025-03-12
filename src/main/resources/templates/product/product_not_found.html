@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title></title>
+</head>
+
+<body>
+  <p>Categories:</p>
+  <ul>
+    <li th:each="category : ${categories}">
+      <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
+    </li>
+  </ul>
+
+  <h1>Page could not be found</h1>
+  <p>Might have been a misspelling of the Product name in the URL path</p>
+</body>
+
+</html>
