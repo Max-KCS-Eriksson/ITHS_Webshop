@@ -4,6 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -11,12 +15,17 @@ public class User {
 
     @Id
     @Column(name = "email")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Must be a valid email")
     private String email;
 
     @Column(name = "password")
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
     @Column(name = "admin")
+    @NotNull(message = "Admin role must be specified")
     private boolean isAdmin;
 
     public User() {}
