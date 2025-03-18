@@ -30,6 +30,12 @@ public class User {
 
     public User() {}
 
+    public User(String email, String password) {
+        setEmail(email);
+        setPassword(password);
+        setAdmin(false);
+    }
+
     public User(String email, String password, boolean isAdmin) {
         setEmail(email);
         setPassword(password);
