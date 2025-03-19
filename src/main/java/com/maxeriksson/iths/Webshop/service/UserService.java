@@ -22,11 +22,13 @@ public class UserService implements UserDetailsService {
         String email = user.getEmail();
         boolean emailExists = repository.findById(email).isPresent();
         if (emailExists) {
-            throw new RuntimeException("An account with this email is already registered" + email);
+            throw new RuntimeException("User with email " + email + " is already registered");
         }
 
-        return repository.save(
-                new User(email, passwordEncoder.encode(user.getPassword()), user.isAdmin()));
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        return repository.save(user);
     }
 
     @Override
