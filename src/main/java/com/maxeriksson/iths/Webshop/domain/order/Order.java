@@ -36,7 +36,7 @@ public class Order {
     @NotNull(message = "Order date must be specified")
     private LocalDateTime orderDate;
 
-    @JoinColumn(name = "orderline")
+    @JoinColumn(name = "id")
     @OneToMany(
             fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
