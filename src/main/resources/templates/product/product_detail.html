@@ -25,6 +25,19 @@
     <p th:text="*{category.name}"></p>
     <p><span th:text="*{price}"></span><span> SEK</span></p>
   </div>
+
+  <h2>Shopping Basket</h2>
+  <form th:action="@{/shopping-basket/add}" method="POST">
+    <input type="hidden" name="product_id" th:object="${product}" th:value="*{name}" />
+    <label for="quantity">Quantity</label>
+    <input type="number" name="quantity" value="1" />
+    <button type="submit">Add</button>
+  </form>
+  <ul>
+    <li th:each="message : ${errors}">
+      <span th:text="${message}"></span>
+    </li>
+  </ul>
 </body>
 
 </html>
