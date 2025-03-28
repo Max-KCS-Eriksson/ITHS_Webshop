@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Basket</title>
+</head>
+
+<body>
+  <p>Categories:</p>
+  <ul>
+    <li th:each="category : ${categories}">
+      <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
+    </li>
+  </ul>
+
+  <form th:action="@{/products}" method="POST">
+    <input type="text" name="product_name" value="" />
+    <button type="submit">Search</button>
+  </form>
+
+  <h1>Shopping Basket</h1>
+  <p>Products:</p>
+  <ul>
+    <li th:each="item : ${products}">
+      <p th:text="${item.product.name}"></p>
+      <p th:text="${item.quantity}"></p>
+    </li>
+  </ul>
+</body>
+
+</html>
