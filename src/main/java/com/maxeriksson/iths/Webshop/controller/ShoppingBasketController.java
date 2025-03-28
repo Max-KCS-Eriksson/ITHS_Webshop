@@ -21,4 +21,7 @@ import java.util.Optional;
 public class ShoppingBasketController {
 
     @Autowired private ShoppingBasketService shoppingBasket;
+
+    private String viewPackage = "order/";
+    private String shoppingBasketView = viewPackage + "shopping_basket";
 }
