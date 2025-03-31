@@ -24,16 +24,26 @@
   <p>Products:</p>
   <ul>
     <li th:each="item : ${products}">
-      <form th:action="@{/shopping-basket/add}" method="POST">
-        <input type="hidden" name="product_id" th:object="${product}" th:value="${item.product.name}" />
-        <p>
-          <span th:text="${item.product.name}"></span>
-          <span>| Quantity
-            <input type="number" name="quantity" th:value="${item.quantity}" />
-            <button type="submit">Change</button>
-          </span>
-        </p>
-      </form>
+      <p>
+        <span>
+          <form th:action="@{/shopping-basket/add}" method="POST">
+            <input type="hidden" name="product_id" th:object="${product}" th:value="${item.product.name}" />
+            <p>
+              <span th:text="${item.product.name}"></span>
+              <span>| Quantity
+                <input type="number" name="quantity" th:value="${item.quantity}" />
+                <button type="submit">Change</button>
+              </span>
+            </p>
+          </form>
+        </span>
+        <span>
+          <form th:action="@{/shopping-basket/remove}" method="POST">
+            <input type="hidden" name="product_id" th:object="${product}" th:value="${item.product.name}" />
+            <button type="submit">Remove</button>
+          </form>
+        </span>
+      </p>
     </li>
   </ul>
 </body>
