@@ -26,4 +26,8 @@ public class ShoppingBasketService {
     public void addProduct(OrderLine orderLine) {
         products.put(orderLine.getProduct(), orderLine);
     }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+    }
 }
