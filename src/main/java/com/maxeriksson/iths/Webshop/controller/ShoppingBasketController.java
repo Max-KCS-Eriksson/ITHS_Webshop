@@ -51,4 +51,19 @@ public class ShoppingBasketController {
 
         return new ModelAndView(view, model);
     }
+
+    @PostMapping("/remove")
+    public ModelAndView removeProduct(
+            ModelMap model, @RequestParam("product_id") String productId) {
+        Optional<Product> product = productService.getProduct(productId);
+        if (product.isPresent()) {
+            shoppingBasket.removeProduct(product.get());
+        }
+
+        String view = "redirect:" + this.getClass().getAnnotation(RequestMapping.class).value()[0];
+        model.addAttribute("products", shoppingBasket.getAllProducts().values());
+        model.addAttribute("categories", productService.getAllCategories());
+
+        return new ModelAndView(view, model);
+    }
 }
