@@ -22,6 +22,10 @@ public class OrderLine {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "order_id")
+    Order order;
+
+    @ManyToOne
     @JoinColumn(name = "product")
     @NotNull(message = "Order line must have a Product")
     private Product product;
@@ -43,6 +47,14 @@ public class OrderLine {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Product getProduct() {

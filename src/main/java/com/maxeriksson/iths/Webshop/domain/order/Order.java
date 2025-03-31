@@ -36,8 +36,8 @@ public class Order {
     @NotNull(message = "Order date must be specified")
     private LocalDateTime orderDate;
 
-    @JoinColumn(name = "id")
     @OneToMany(
+            mappedBy = "order",
             fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull(message = "Order must have a list of products")
@@ -49,7 +49,7 @@ public class Order {
     public Order(User customer, LocalDateTime orderDate, List<OrderLine> products) {
         this.customer = customer;
         this.orderDate = orderDate;
-        this.products = products;
+        setProducts(products);
     }
 
     public int getId() {
@@ -82,5 +82,8 @@ public class Order {
 
     public void setProducts(List<OrderLine> products) {
         this.products = products;
+        for (OrderLine orderLine : products) {
+            orderLine.setOrder(this);
+        }
     }
 }
