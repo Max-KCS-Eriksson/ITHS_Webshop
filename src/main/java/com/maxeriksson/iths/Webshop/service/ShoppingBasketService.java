@@ -46,7 +46,7 @@ public class ShoppingBasketService {
         return total;
     }
 
-    public void checkout() {
+    public Order checkout() {
         User customer =
                 ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
@@ -54,6 +54,6 @@ public class ShoppingBasketService {
         products.clear();
 
         Order order = new Order(customer, LocalDateTime.now(), orderLines);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 }
