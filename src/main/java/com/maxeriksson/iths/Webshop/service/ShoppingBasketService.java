@@ -37,6 +37,15 @@ public class ShoppingBasketService {
         products.remove(product);
     }
 
+    public int getTotalPrice() {
+        int total = 0;
+        for(OrderLine orderLine : products.values()) {
+            total += orderLine.getProduct().getPrice() * orderLine.getQuantity();
+        }
+
+        return total;
+    }
+
     public void checkout() {
         User customer =
                 ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
