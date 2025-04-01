@@ -66,4 +66,15 @@ public class ShoppingBasketController {
 
         return new ModelAndView(view, model);
     }
+
+    @PostMapping("/checkout")
+    public ModelAndView checkout(ModelMap model) {
+        shoppingBasket.checkout();
+
+        String view = "redirect:" + this.getClass().getAnnotation(RequestMapping.class).value()[0];
+        model.addAttribute("products", shoppingBasket.getAllProducts().values());
+        model.addAttribute("categories", productService.getAllCategories());
+
+        return new ModelAndView(view, model);
+    }
 }
