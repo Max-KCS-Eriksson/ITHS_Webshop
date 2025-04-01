@@ -23,7 +23,7 @@ public class OrderLine {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    Order order;
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product")
