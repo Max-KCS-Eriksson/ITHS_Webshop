@@ -1,5 +1,6 @@
 package com.maxeriksson.iths.Webshop.controller;
 
+import com.maxeriksson.iths.Webshop.domain.order.Order;
 import com.maxeriksson.iths.Webshop.domain.order.OrderLine;
 import com.maxeriksson.iths.Webshop.domain.product.Product;
 import com.maxeriksson.iths.Webshop.service.ProductService;
@@ -25,6 +26,7 @@ public class ShoppingBasketController {
 
     private String viewPackage = "order/";
     private String shoppingBasketView = viewPackage + "shopping_basket";
+    private String orderConfirmationView = viewPackage + "checkout_confirmation";
 
     @GetMapping
     public ModelAndView getShoppingBasketView(ModelMap model) {
@@ -66,10 +68,14 @@ public class ShoppingBasketController {
 
     @PostMapping("/checkout")
     public ModelAndView checkout(ModelMap model) {
-        shoppingBasket.checkout();
+        int totalPrice = shoppingBasket.getTotalPrice();
+        Order order = shoppingBasket.checkout();
 
-        String view = "redirect:" + this.getClass().getAnnotation(RequestMapping.class).value()[0];
-        addDefaultAttributes(model);
+        String view = orderConfirmationView;
+        model.addAttribute("customer", order.getCustomer().getUsername());
+        model.addAttribute("order_date", order.getOrderDate().toLocalDate());
+        model.addAttribute("products", order.getProducts());
+        model.addAttribute("total_price", totalPrice);
 
         return new ModelAndView(view, model);
     }
