@@ -45,6 +45,11 @@
         </span>
       </p>
     </li>
+
+    <br />
+    <form th:if="${products.size() > 0}" th:action="@{/shopping-basket/checkout}" method="POST">
+      <button type="submit">Checkout</button>
+    </form>
   </ul>
 </body>
 
