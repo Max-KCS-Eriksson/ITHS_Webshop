@@ -48,6 +48,7 @@
 
     <br />
     <form th:if="${products.size() > 0}" th:action="@{/shopping-basket/checkout}" method="POST">
+      <p>Total: <span th:text=${total_price}></span></p>
       <button type="submit">Checkout</button>
     </form>
   </ul>
