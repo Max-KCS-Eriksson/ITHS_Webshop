@@ -76,6 +76,8 @@ public class ShoppingBasketController {
 
     private void addDefaultAttributes(ModelMap model) {
         model.addAttribute("products", shoppingBasket.getAllProducts().values());
+        model.addAttribute("total_price", shoppingBasket.getTotalPrice());
+
         model.addAttribute("categories", productService.getAllCategories());
     }
 }
