@@ -29,8 +29,7 @@ public class ShoppingBasketController {
     @GetMapping
     public ModelAndView getShoppingBasketView(ModelMap model) {
         String view = shoppingBasketView;
-        model.addAttribute("products", shoppingBasket.getAllProducts().values());
-        model.addAttribute("categories", productService.getAllCategories());
+        addDefaultAttributes(model);
 
         return new ModelAndView(view, model);
     }
@@ -46,8 +45,7 @@ public class ShoppingBasketController {
         }
 
         String view = "redirect:" + this.getClass().getAnnotation(RequestMapping.class).value()[0];
-        model.addAttribute("products", shoppingBasket.getAllProducts().values());
-        model.addAttribute("categories", productService.getAllCategories());
+        addDefaultAttributes(model);
 
         return new ModelAndView(view, model);
     }
@@ -61,8 +59,7 @@ public class ShoppingBasketController {
         }
 
         String view = "redirect:" + this.getClass().getAnnotation(RequestMapping.class).value()[0];
-        model.addAttribute("products", shoppingBasket.getAllProducts().values());
-        model.addAttribute("categories", productService.getAllCategories());
+        addDefaultAttributes(model);
 
         return new ModelAndView(view, model);
     }
@@ -72,9 +69,13 @@ public class ShoppingBasketController {
         shoppingBasket.checkout();
 
         String view = "redirect:" + this.getClass().getAnnotation(RequestMapping.class).value()[0];
-        model.addAttribute("products", shoppingBasket.getAllProducts().values());
-        model.addAttribute("categories", productService.getAllCategories());
+        addDefaultAttributes(model);
 
         return new ModelAndView(view, model);
+    }
+
+    private void addDefaultAttributes(ModelMap model) {
+        model.addAttribute("products", shoppingBasket.getAllProducts().values());
+        model.addAttribute("categories", productService.getAllCategories());
     }
 }
