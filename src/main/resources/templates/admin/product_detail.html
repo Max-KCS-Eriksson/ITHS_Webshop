@@ -11,33 +11,20 @@
   <p>Categories:</p>
   <ul>
     <li th:each="category : ${categories}">
-      <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
+      <a th:href="@{/admin/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
     </li>
   </ul>
-
-  <form th:action="@{/products}" method="POST">
-    <input type="text" name="product_name" value="" />
-    <button type="submit">Search</button>
-  </form>
 
   <div th:object="${product}">
     <h1 th:text="*{name}"></h1>
     <p th:text="*{category.name}"></p>
     <p><span th:text="*{price}"></span><span> SEK</span></p>
-  </div>
 
-  <h2>Shopping Basket</h2>
-  <form th:action="@{/shopping-basket/add}" method="POST">
-    <input type="hidden" name="product_id" th:object="${product}" th:value="*{name}" />
-    <label for="quantity">Quantity</label>
-    <input type="number" name="quantity" value="1" />
-    <button type="submit">Add</button>
-  </form>
-  <ul>
-    <li th:each="message : ${errors}">
-      <span th:text="${message}"></span>
-    </li>
-  </ul>
+    <form th:action="@{/admin/products/delete}" method="POST">
+      <input type="hidden" name="product_id" th:value="*{name}" />
+      <button type="submit">Delete</button>
+    </form>
+  </div>
 </body>
 
 </html>
