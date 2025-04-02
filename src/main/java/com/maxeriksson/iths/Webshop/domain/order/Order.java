@@ -36,6 +36,10 @@ public class Order {
     @NotNull(message = "Order date must be specified")
     private LocalDateTime orderDate;
 
+    @Column(name = "expedited")
+    @NotNull
+    private boolean expedited;
+
     @OneToMany(
             mappedBy = "order",
             fetch = FetchType.EAGER,
@@ -50,6 +54,7 @@ public class Order {
         this.customer = customer;
         this.orderDate = orderDate;
         setProducts(products);
+        this.expedited = false;
     }
 
     public int getId() {
@@ -85,5 +90,13 @@ public class Order {
         for (OrderLine orderLine : products) {
             orderLine.setOrder(this);
         }
+    }
+
+    public boolean isExpedited() {
+        return expedited;
+    }
+
+    public void setExpedited(boolean expedited) {
+        this.expedited = expedited;
     }
 }
