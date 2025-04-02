@@ -29,6 +29,9 @@ public class SecurityConfig {
                         auth -> {
                             auth.requestMatchers(HttpMethod.GET, "/").permitAll();
                             auth.requestMatchers(HttpMethod.POST, "/register").permitAll();
+
+                            auth.requestMatchers("/admin/**").hasAuthority("ADMIN");
+
                             auth.anyRequest().authenticated();
                         })
                 .formLogin(Customizer.withDefaults());
