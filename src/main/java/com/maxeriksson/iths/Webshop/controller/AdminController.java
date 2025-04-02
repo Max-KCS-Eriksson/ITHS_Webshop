@@ -69,4 +69,18 @@ public class AdminController {
 
         return new ModelAndView(view);
     }
+
+    @GetMapping("/products/category/{id}")
+    public ModelAndView productsByCategoryPanel(ModelMap model, @PathVariable String id) {
+        model.addAttribute("categories", productService.getAllCategories());
+        Optional<Category> category = productService.getCategory(id);
+        if (category.isPresent()) {
+            model.addAttribute("products", productService.getProductsBy(category.get()));
+        }
+
+        String view = productsPanelView;
+
+        return new ModelAndView(view, model);
+    }
+
 }
