@@ -18,7 +18,7 @@ public class AdminController {
     @Autowired private OrderService orderService;
 
     private String viewPackage = "admin/";
-    private String adminPanelView = viewPackage + "admin_index";
+    private String adminPanelView = viewPackage + "admin_panel";
 
     @GetMapping
     public ModelAndView adminPanel() {
