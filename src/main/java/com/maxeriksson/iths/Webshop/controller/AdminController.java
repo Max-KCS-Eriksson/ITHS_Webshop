@@ -29,6 +29,8 @@ public class AdminController {
     private String productsPanelView = viewPackage + "product_list";
     private String productDetailPanelView = viewPackage + "product_detail";
 
+    private String baseUrlPath = this.getClass().getAnnotation(RequestMapping.class).value()[0];
+
     @GetMapping
     public ModelAndView adminPanel() {
         return new ModelAndView(adminPanelView);
@@ -65,7 +67,7 @@ public class AdminController {
             productService.delete(product.get());
         }
 
-        String view = "redirect:/products";
+        String view = "redirect:" + baseUrlPath + "/products";
 
         return new ModelAndView(view);
     }
@@ -82,5 +84,4 @@ public class AdminController {
 
         return new ModelAndView(view, model);
     }
-
 }
