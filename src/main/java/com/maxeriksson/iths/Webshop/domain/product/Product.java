@@ -28,12 +28,24 @@ public class Product {
     @NotNull(message = "Product must belong to a Category")
     private Category category;
 
+    @Column(name = "for_sale")
+    @NotNull(message = "For sale status must be specified")
+    private boolean isForSale;
+
     public Product() {}
 
     public Product(String name, int price, Category category) {
         setName(name);
         setPrice(price);
         setCategory(category);
+        this.isForSale = true;
+    }
+
+    public Product(String name, int price, Category category, boolean isForSale) {
+        setName(name);
+        setPrice(price);
+        setCategory(category);
+        this.isForSale = isForSale;
     }
 
     public String getName() {
@@ -58,6 +70,14 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public boolean isForSale() {
+        return isForSale;
+    }
+
+    public void setForSale(boolean isForSale) {
+        this.isForSale = isForSale;
     }
 
     @Override
