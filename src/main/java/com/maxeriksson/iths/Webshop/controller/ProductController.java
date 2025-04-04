@@ -31,7 +31,7 @@ public class ProductController {
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("categories", service.getAllCategories());
-        model.addAttribute("products", service.getAllProducts());
+        model.addAttribute("products", service.getProductsForSale(true));
 
         return productListView;
     }

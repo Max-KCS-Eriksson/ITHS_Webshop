@@ -39,7 +39,7 @@ public class AdminController {
     @GetMapping("/products")
     public ModelAndView productsPanel(ModelMap model) {
         model.addAttribute("categories", productService.getAllCategories());
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getProductsForSale(true));
 
         String view = productsPanelView;
 
@@ -64,7 +64,7 @@ public class AdminController {
             ModelMap model, @RequestParam("product_id") String productId) {
         Optional<Product> product = productService.getProduct(productId);
         if (product.isPresent()) {
-            productService.delete(product.get());
+            productService.remove(product.get());
         }
 
         String view = "redirect:" + baseUrlPath + "/products";

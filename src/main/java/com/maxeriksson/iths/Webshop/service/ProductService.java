@@ -28,8 +28,8 @@ public class ProductService {
         categoryRepository.save(category);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<Product> getProductsForSale(boolean isForSale) {
+        return productRepository.findByIsForSale(isForSale);
     }
 
     public Optional<Product> getProduct(String name) {
@@ -57,8 +57,9 @@ public class ProductService {
         return categoryRepository.findById(name);
     }
 
-    public void delete(Product product) {
-        productRepository.delete(product);
+    public void remove(Product product) {
+        product.setForSale(false);
+        productRepository.save(product);
     }
 
     public void delete(Category category) {
