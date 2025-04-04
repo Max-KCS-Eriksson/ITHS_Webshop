@@ -4,26 +4,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Products</title>
+  <title>Orders Panel</title>
 </head>
 
 <body>
-  <p>Categories:</p>
-  <ul>
-    <li th:each="category : ${categories}">
-      <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
-    </li>
-  </ul>
-
-  <form th:action="@{/products}" method="POST">
-    <input type="text" name="product_name" value="" />
-    <button type="submit">Search</button>
+  <h1>Orders:</h1>
+  <form action="/admin/orders" method="get">
+    <label for="expedited"><span> Expedited: </span> </label>
+    <input type="checkbox" name="expedited" th:checked="${expedited}" />
+    <button type="submit">Show</button>
   </form>
 
-  <p>Products:</p>
   <ul>
-    <li th:each="product : ${products}">
-      <a th:href="@{/products/{id}(id=${product.name})}" th:text="${product.name}"></a>
+    <li th:each="order : ${orders}">
+      <a th:href="@{/admin/orders/{id}(id=${order.id})}">
+        ID=<span th:text="${order.id}"></span>, Date=<span th:text="${order.orderDate}"></span>
+      </a>
     </li>
   </ul>
 </body>

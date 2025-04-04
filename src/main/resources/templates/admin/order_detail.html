@@ -4,40 +4,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title th:object="${product}" th:text="*{name}"></title>
+  <title th:object="${order}">
+    <span th:text="*{id}"></span><span th:text="*{orderDate}"></span>
+  </title>
 </head>
 
 <body>
-  <p>Categories:</p>
-  <ul>
-    <li th:each="category : ${categories}">
-      <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
-    </li>
-  </ul>
-
-  <form th:action="@{/products}" method="POST">
-    <input type="text" name="product_name" value="" />
-    <button type="submit">Search</button>
-  </form>
-
-  <div th:object="${product}">
-    <h1 th:text="*{name}"></h1>
-    <p th:text="*{category.name}"></p>
-    <p><span th:text="*{price}"></span><span> SEK</span></p>
+  <div th:object="${order}">
+    <h1>
+      Order: ID=<span th:text="*{id}"></span>, Date=<span th:text="*{orderDate}"></span>
+    </h1>
+    <p>Is expedited: <span th:text="*{expedited}"></span></p>
+    <ul>
+      <li th:each="item : *{products}">
+        <p>
+          <span th:text="${item.product.name}"></span>
+          <span>| Quantity: </span><span th:text="${item.quantity}"></span>
+        </p>
+      </li>
+    </ul>
   </div>
-
-  <h2>Shopping Basket</h2>
-  <form th:action="@{/shopping-basket/add}" method="POST">
-    <input type="hidden" name="product_id" th:object="${product}" th:value="*{name}" />
-    <label for="quantity">Quantity</label>
-    <input type="number" name="quantity" value="1" />
-    <button type="submit">Add</button>
-  </form>
-  <ul>
-    <li th:each="message : ${errors}">
-      <span th:text="${message}"></span>
-    </li>
-  </ul>
+  <div th:object="${customer}">
+    <h2>Customer: <span th:text="*{email}"></span></h2>
+  </div>
 </body>
 
 </html>
