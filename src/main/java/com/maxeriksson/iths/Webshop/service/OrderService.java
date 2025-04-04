@@ -1,13 +1,13 @@
 package com.maxeriksson.iths.Webshop.service;
 
-import java.util.List;
+import com.maxeriksson.iths.Webshop.domain.order.Order;
+import com.maxeriksson.iths.Webshop.repository.order.OrderRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
-import com.maxeriksson.iths.Webshop.domain.order.Order;
-import com.maxeriksson.iths.Webshop.repository.order.OrderRepository;
+import java.util.List;
 
 @Service
 @ApplicationScope
