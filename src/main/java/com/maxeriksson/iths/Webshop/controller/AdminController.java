@@ -1,5 +1,6 @@
 package com.maxeriksson.iths.Webshop.controller;
 
+import com.maxeriksson.iths.Webshop.domain.order.Order;
 import com.maxeriksson.iths.Webshop.domain.product.Category;
 import com.maxeriksson.iths.Webshop.domain.product.Product;
 import com.maxeriksson.iths.Webshop.service.OrderService;
@@ -28,6 +29,8 @@ public class AdminController {
     private String adminPanelView = viewPackage + "admin_panel";
     private String productsPanelView = viewPackage + "product_list";
     private String productDetailPanelView = viewPackage + "product_detail";
+    private String ordersPanelView = viewPackage + "order_list";
+    private String orderDetailPanelView = viewPackage + "order_detail";
 
     private String baseUrlPath = this.getClass().getAnnotation(RequestMapping.class).value()[0];
 
@@ -35,6 +38,8 @@ public class AdminController {
     public ModelAndView adminPanel() {
         return new ModelAndView(adminPanelView);
     }
+
+    // Product mappings
 
     @GetMapping("/products")
     public ModelAndView productsPanel(ModelMap model) {
@@ -81,6 +86,30 @@ public class AdminController {
         }
 
         String view = productsPanelView;
+
+        return new ModelAndView(view, model);
+    }
+
+    // Order mappings
+
+    @GetMapping("/orders")
+    public ModelAndView ordersByExpeditedStatusPanel(
+            ModelMap model, @RequestParam(required = false) boolean expedited) {
+        model.addAttribute("expedited", expedited);
+        model.addAttribute("orders", orderService.getAllOrdersExpedited(expedited));
+
+        String view = ordersPanelView;
+
+        return new ModelAndView(view, model);
+    }
+
+    @GetMapping("/orders/{id}")
+    public ModelAndView orderDetailPanel(ModelMap model, @PathVariable int id) {
+        Order order = orderService.getOrder(id);
+        model.addAttribute("order", order);
+        model.addAttribute("customer", order.getCustomer());
+
+        String view = orderDetailPanelView;
 
         return new ModelAndView(view, model);
     }
