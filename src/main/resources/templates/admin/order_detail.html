@@ -14,7 +14,15 @@
     <h1>
       Order: ID=<span th:text="*{id}"></span>, Date=<span th:text="*{orderDate}"></span>
     </h1>
-    <p>Is expedited: <span th:text="*{expedited}"></span></p>
+
+    <p th:if="${order.expedited}">
+      Expedited: <span th:text="*{expedited}"></span>
+    </p>
+    <form th:unless="${order.expedited}" th:action="@{/admin/orders/expedite}" method="POST">
+      <input type="hidden" name="id" th:value="*{id}" />
+      <button type="submit">Expedite</button>
+    </form>
+
     <ul>
       <li th:each="item : *{products}">
         <p>
