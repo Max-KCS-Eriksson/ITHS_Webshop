@@ -113,4 +113,17 @@ public class AdminController {
 
         return new ModelAndView(view, model);
     }
+
+    @PostMapping("/orders/expedite")
+    public ModelAndView expediteOrder(ModelMap model, @RequestParam int id) {
+        Order order = orderService.getOrder(id);
+        orderService.markOrderAsExpedited(order);
+
+        model.addAttribute("order", order);
+        model.addAttribute("customer", order.getCustomer());
+
+        String view = orderDetailPanelView;
+
+        return new ModelAndView(view, model);
+    }
 }
