@@ -64,4 +64,18 @@ public class ShoppingBasketServiceTest {
         int actual = service.getAllProducts().size();
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void removeProductTest() {
+        int initialContentSize = service.getAllProducts().size();
+        ensureShoppingBasketNotEmpty(initialContentSize);
+
+        for (Product product : products) {
+            service.removeProduct(product);
+        }
+
+        int expected = 0;
+        int actual = service.getAllProducts().size();
+        assertEquals(expected, actual);
+    }
 }
