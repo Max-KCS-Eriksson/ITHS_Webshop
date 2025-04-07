@@ -36,4 +36,17 @@ public class ShoppingBasketServiceTest {
                     new Product("Buzz", 40, category)
                 };
     }
+
+    // Unit tests
+
+    @Test
+    public void addProductTest() {
+        for (Product product : products) {
+            service.addProduct(new OrderLine(product, 1));
+        }
+
+        int expected = products.length;
+        int actual = service.getAllProducts().size();
+        assertEquals(expected, actual);
+    }
 }
