@@ -6,9 +6,13 @@ import com.maxeriksson.iths.Webshop.domain.product.Product;
 import com.maxeriksson.iths.Webshop.service.OrderService;
 import com.maxeriksson.iths.Webshop.service.ProductService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -71,6 +76,28 @@ public class AdminController {
         model.addAttribute("product", new Product());
 
         String view = productFormPanelView;
+
+        return new ModelAndView(view, model);
+    }
+
+    @PostMapping("/products/add")
+    public ModelAndView addNewProduct(
+            ModelMap model, @Valid Product product, BindingResult bindingResult) {
+        String view;
+        ArrayList<String> errors = new ArrayList<>();
+        if (bindingResult.hasErrors()) {
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errors.add(fieldError.getDefaultMessage());
+            }
+            model.addAttribute("errors", errors);
+
+            model.addAttribute("categories", productService.getAllCategories());
+            view = productFormPanelView;
+        } else {
+            productService.add(product);
+
+            view = "redirect:" + baseUrlPath + "/products";
+        }
 
         return new ModelAndView(view, model);
     }
