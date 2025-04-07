@@ -21,6 +21,7 @@ public class ProductService {
     @Autowired private CategoryRepository categoryRepository;
 
     public void add(Product product) {
+        product.setForSale(true);
         productRepository.save(product);
     }
 
