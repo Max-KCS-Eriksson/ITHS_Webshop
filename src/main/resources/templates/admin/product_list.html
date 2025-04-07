@@ -16,6 +16,7 @@
   </ul>
 
   <p>Products:</p>
+  <a th:href="@{/admin/products/form}">Add new Product</a>
   <ul>
     <li th:each="product : ${products}">
       <a th:href="@{/admin/products/{id}(id=${product.name})}" th:text="${product.name}"></a>
