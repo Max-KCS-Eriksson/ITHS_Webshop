@@ -17,10 +17,10 @@
     <input type="number" name="price" th:field="*{price}" />
     <br />
     <label for="category">Category</label>
-    <select name="category" th:field="*{category}">
-      <option value="">---</option>
-      <option th:each="category : ${categories}" th:value="${category}" th:text="${category.name}"></option>
+    <select name="category" th:object="${product}" th:field="*{category}">
+      <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}"></option>
     </select>
+    <br />
     <button type="submit">Register</button>
   </form>
 
