@@ -1,7 +1,14 @@
 package com.maxeriksson.iths.Webshop.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.maxeriksson.iths.Webshop.domain.order.OrderLine;
+import com.maxeriksson.iths.Webshop.domain.product.Category;
+import com.maxeriksson.iths.Webshop.domain.product.Product;
 import com.maxeriksson.iths.Webshop.repository.order.OrderRepository;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,4 +20,20 @@ public class ShoppingBasketServiceTest {
     @Mock private OrderRepository orderRepository;
 
     @InjectMocks private static ShoppingBasketService service;
+
+    // Set up
+
+    private static Product[] products;
+
+    @BeforeAll
+    public static void setUp() {
+        Category category = new Category("Category");
+        products =
+                new Product[] {
+                    new Product("Foo", 10, category),
+                    new Product("Bar", 20, category),
+                    new Product("Fizz", 30, category),
+                    new Product("Buzz", 40, category)
+                };
+    }
 }
