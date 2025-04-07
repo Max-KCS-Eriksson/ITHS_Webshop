@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products Panel</title>
+</head>
+
+<body>
+  <p>Categories:</p>
+  <ul>
+    <li th:each="category : ${categories}">
+      <a th:href="@{/admin/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
+    </li>
+  </ul>
+
+  <p>Products:</p>
+  <a th:href="@{/admin/products/form}">Add new Product</a>
+  <ul>
+    <li th:each="product : ${products}">
+      <a th:href="@{/admin/products/{id}(id=${product.name})}" th:text="${product.name}"></a>
+    </li>
+  </ul>
+</body>
+
+</html>

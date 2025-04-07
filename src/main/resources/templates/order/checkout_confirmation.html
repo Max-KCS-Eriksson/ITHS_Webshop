@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+  </head>
+  <body>
+    <h1>Order is placed:</h1>
+    <p th:text="${customer}"></p>
+    <p th:text="${order_date}"></p>
+    <ul>
+      <li th:each="item : ${products}">
+        <p>
+          <span th:text="${item.product.name}"></span>
+          <span>| Quantity: </span>
+          <span th:text="${item.quantity}"></span>
+        </p>
+      </li>
+    </ul>
+    <p>
+      <span>Total: </span>
+      <span th:text="${total_price}"></span>
+    </p>
+  </body>
+</html>

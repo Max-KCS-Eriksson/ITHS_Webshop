@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Basket</title>
+</head>
+
+<body>
+  <p>Categories:</p>
+  <ul>
+    <li th:each="category : ${categories}">
+      <a th:href="@{/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
+    </li>
+  </ul>
+
+  <form th:action="@{/products}" method="POST">
+    <input type="text" name="product_name" value="" />
+    <button type="submit">Search</button>
+  </form>
+
+  <h1>Shopping Basket</h1>
+  <p>Products:</p>
+  <ul>
+    <li th:each="item : ${products}">
+      <p>
+        <span>
+          <form th:action="@{/shopping-basket/add}" method="POST">
+            <input type="hidden" name="product_id" th:object="${product}" th:value="${item.product.name}" />
+            <p>
+              <span th:text="${item.product.name}"></span>
+              <span>| Quantity
+                <input type="number" name="quantity" th:value="${item.quantity}" />
+                <button type="submit">Change</button>
+              </span>
+            </p>
+          </form>
+        </span>
+        <span>
+          <form th:action="@{/shopping-basket/remove}" method="POST">
+            <input type="hidden" name="product_id" th:object="${product}" th:value="${item.product.name}" />
+            <button type="submit">Remove</button>
+          </form>
+        </span>
+      </p>
+    </li>
+
+    <br />
+    <form th:if="${products.size() > 0}" th:action="@{/shopping-basket/checkout}" method="POST">
+      <p>Total: <span th:text=${total_price}></span></p>
+      <button type="submit">Checkout</button>
+    </form>
+  </ul>
+</body>
+
+</html>

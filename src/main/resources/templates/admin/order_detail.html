@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:object="${order}">
+    <span th:text="*{id}"></span><span th:text="*{orderDate}"></span>
+  </title>
+</head>
+
+<body>
+  <div th:object="${order}">
+    <h1>
+      Order: ID=<span th:text="*{id}"></span>, Date=<span th:text="*{orderDate}"></span>
+    </h1>
+
+    <p th:if="${order.expedited}">
+      Expedited: <span th:text="*{expedited}"></span>
+    </p>
+    <form th:unless="${order.expedited}" th:action="@{/admin/orders/expedite}" method="POST">
+      <input type="hidden" name="id" th:value="*{id}" />
+      <button type="submit">Expedite</button>
+    </form>
+
+    <ul>
+      <li th:each="item : *{products}">
+        <p>
+          <span th:text="${item.product.name}"></span>
+          <span>| Quantity: </span><span th:text="${item.quantity}"></span>
+        </p>
+      </li>
+    </ul>
+  </div>
+  <div th:object="${customer}">
+    <h2>Customer: <span th:text="*{email}"></span></h2>
+  </div>
+</body>
+
+</html>

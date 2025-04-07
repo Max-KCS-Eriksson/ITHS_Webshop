@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin | Add Product</title>
+</head>
+
+<body>
+  <h1>Add new Product</h1>
+  <form th:action="@{/admin/products/add}" method="POST" th:object="${product}">
+    <label for="name">Product name</label>
+    <input type="text" name="name" th:field="*{name}" />
+    <br />
+    <label for="price">Price</label>
+    <input type="number" name="price" th:field="*{price}" />
+    <br />
+    <label for="category">Category</label>
+    <select name="category" th:object="${product}" th:field="*{category}">
+      <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}"></option>
+    </select>
+    <br />
+    <button type="submit">Register</button>
+  </form>
+
+  <ul>
+    <li th:each="message : ${errors}">
+      <span th:text="${message}"></span>
+    </li>
+  </ul>
+</body>
+
+</html>

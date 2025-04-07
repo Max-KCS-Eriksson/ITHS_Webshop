@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orders Panel</title>
+</head>
+
+<body>
+  <h1>Orders:</h1>
+  <form action="/admin/orders" method="get">
+    <label for="expedited"><span> Expedited: </span> </label>
+    <input type="checkbox" name="expedited" th:checked="${expedited}" />
+    <button type="submit">Show</button>
+  </form>
+
+  <ul>
+    <li th:each="order : ${orders}">
+      <a th:href="@{/admin/orders/{id}(id=${order.id})}">
+        ID=<span th:text="${order.id}"></span>, Date=<span th:text="${order.orderDate}"></span>
+      </a>
+    </li>
+  </ul>
+</body>
+
+</html>

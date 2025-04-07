@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:object="${product}" th:text="*{name}"></title>
+</head>
+
+<body>
+  <p>Categories:</p>
+  <ul>
+    <li th:each="category : ${categories}">
+      <a th:href="@{/admin/products/category/{id}(id=${category.name})}" th:text="${category.name}"></a>
+    </li>
+  </ul>
+
+  <div th:object="${product}">
+    <h1 th:text="*{name}"></h1>
+    <p th:text="*{category.name}"></p>
+    <p><span th:text="*{price}"></span><span> SEK</span></p>
+
+    <form th:action="@{/admin/products/delete}" method="POST">
+      <input type="hidden" name="product_id" th:value="*{name}" />
+      <button type="submit">Delete</button>
+    </form>
+  </div>
+</body>
+
+</html>
