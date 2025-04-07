@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import com.maxeriksson.iths.Webshop.domain.order.OrderLine;
 import com.maxeriksson.iths.Webshop.domain.product.Category;
 import com.maxeriksson.iths.Webshop.domain.product.Product;
+import com.maxeriksson.iths.Webshop.domain.user.User;
 import com.maxeriksson.iths.Webshop.repository.order.OrderRepository;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @ExtendWith(MockitoExtension.class)
 public class ShoppingBasketServiceTest {
@@ -36,6 +41,15 @@ public class ShoppingBasketServiceTest {
                     new Product("Fizz", 30, category),
                     new Product("Buzz", 40, category)
                 };
+
+        // Manual mocking for Spring Security context
+        Authentication mockAuthentication = Mockito.mock(Authentication.class);
+        SecurityContext mockSecurityContext = Mockito.mock(SecurityContext.class);
+        User mockUser = new User("email@domain.io", "verySecuryPassword");
+
+        Mockito.when(mockAuthentication.getPrincipal()).thenReturn(mockUser);
+        Mockito.when(mockSecurityContext.getAuthentication()).thenReturn(mockAuthentication);
+        SecurityContextHolder.setContext(mockSecurityContext);
     }
 
     private void ensureShoppingBasketNotEmpty(int initialContentSize) {
