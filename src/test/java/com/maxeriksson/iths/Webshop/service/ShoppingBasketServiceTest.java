@@ -80,6 +80,21 @@ public class ShoppingBasketServiceTest {
     }
 
     @Test
+    public void noDuplicateProductsTest() {
+        for (Product product : products) {
+            service.addProduct(new OrderLine(product, 1));
+        }
+        int expected = service.getAllProducts().size();
+
+        for (Product product : products) {
+            service.addProduct(new OrderLine(product, 2));
+        }
+        int actual = service.getAllProducts().size();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void removeProductTest() {
         int initialContentSize = service.getAllProducts().size();
         ensureShoppingBasketNotEmpty(initialContentSize);
