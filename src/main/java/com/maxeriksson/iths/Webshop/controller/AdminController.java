@@ -29,6 +29,7 @@ public class AdminController {
     private String adminPanelView = viewPackage + "admin_panel";
     private String productsPanelView = viewPackage + "product_list";
     private String productDetailPanelView = viewPackage + "product_detail";
+    private String productFormPanelView = viewPackage + "product_form";
     private String ordersPanelView = viewPackage + "order_list";
     private String orderDetailPanelView = viewPackage + "order_detail";
 
@@ -60,6 +61,16 @@ public class AdminController {
         }
 
         String view = productDetailPanelView;
+
+        return new ModelAndView(view, model);
+    }
+
+    @GetMapping("/products/form")
+    public ModelAndView productFormPanel(ModelMap model) {
+        model.addAttribute("categories", productService.getAllCategories());
+        model.addAttribute("product", new Product());
+
+        String view = productFormPanelView;
 
         return new ModelAndView(view, model);
     }
