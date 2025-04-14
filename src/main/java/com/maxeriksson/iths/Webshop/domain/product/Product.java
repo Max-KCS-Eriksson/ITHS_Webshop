@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -16,7 +16,7 @@ public class Product {
 
     @Id
     @Column(name = "name")
-    @NotEmpty(message = "Name must not be empty")
+    @NotBlank(message = "Name must not be empty")
     private String name;
 
     @Column(name = "price")
