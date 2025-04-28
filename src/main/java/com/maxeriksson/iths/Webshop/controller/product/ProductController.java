@@ -1,4 +1,4 @@
-package com.maxeriksson.iths.Webshop.controller;
+package com.maxeriksson.iths.Webshop.controller.product;
 
 import com.maxeriksson.iths.Webshop.domain.product.Category;
 import com.maxeriksson.iths.Webshop.domain.product.Product;
