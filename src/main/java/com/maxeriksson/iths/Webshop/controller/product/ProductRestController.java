@@ -5,6 +5,7 @@ import com.maxeriksson.iths.Webshop.domain.product.Product;
 import com.maxeriksson.iths.Webshop.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -35,6 +39,27 @@ public class ProductRestController {
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getProductsForSale(true);
+        return ResponseEntity.ok().body(products);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<?> getProductsByCategory(@RequestBody Map<String, String> requestBody) {
+        String categoryName = requestBody.get("category");
+        if (categoryName == null || categoryName.isBlank()) {
+            return ResponseEntity.badRequest().body("A \"category\" value must be given");
+        }
+
+        Optional<Category> category = productService.getCategory(categoryName);
+        if (category.isEmpty()) {
+            List<String> categories = new ArrayList<>();
+            for (Category c : productService.getAllCategories()) {
+                categories.add(c.getName());
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Not such Category exists\nAvailable categories:" + categories);
+        }
+
+        List<Product> products = productService.getProductsBy(category.get());
         return ResponseEntity.ok().body(products);
     }
 
