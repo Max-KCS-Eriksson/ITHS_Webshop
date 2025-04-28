@@ -63,6 +63,17 @@ public class ProductRestController {
         return ResponseEntity.ok().body(products);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProductsByName(@RequestBody Map<String, String> requestBody) {
+        String name = requestBody.get("name");
+        if (name == null || name.isBlank()) {
+            return ResponseEntity.badRequest().body("A \"name\" value must be given");
+        }
+
+        List<Product> products = productService.searchProductByName(name);
+        return ResponseEntity.ok().body(products);
+    }
+
     // Update operations
 
     // Delete operations
