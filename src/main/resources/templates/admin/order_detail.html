@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title th:object="${order}">
-    <span th:text="*{id}"></span><span th:text="*{orderDate}"></span>
-  </title>
+  <title th:object="${order}" th:text="${id} + ': ' + @{orderDate}"></title>
 </head>
 
 <body>

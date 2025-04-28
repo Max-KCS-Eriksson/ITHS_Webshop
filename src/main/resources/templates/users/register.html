@@ -19,6 +19,9 @@
     <button type="submit">Register</button>
   </form>
 
+  <h2>Already have an account?</h2>
+  <a th:href="@{/products}">Login</a>
+
   <ul>
     <li th:each="message : ${errors}">
       <span th:text="${message}"></span>
