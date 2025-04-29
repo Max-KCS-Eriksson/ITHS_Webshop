@@ -54,6 +54,14 @@ public class ProductService {
         return productRepository.findByCategory(category);
     }
 
+    public List<String> getAllCategoryNames() {
+        List<String> categories = new ArrayList<>();
+        for (Category category : getAllCategories()) {
+            categories.add(category.getName());
+        }
+        return categories;
+    }
+
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }

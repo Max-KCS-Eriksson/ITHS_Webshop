@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,10 +50,7 @@ public class ProductRestController {
 
         Optional<Category> category = productService.getCategory(categoryName);
         if (category.isEmpty()) {
-            List<String> categories = new ArrayList<>();
-            for (Category c : productService.getAllCategories()) {
-                categories.add(c.getName());
-            }
+            List<String> categories = productService.getAllCategoryNames();
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Not such Category exists\nAvailable categories:" + categories);
         }
