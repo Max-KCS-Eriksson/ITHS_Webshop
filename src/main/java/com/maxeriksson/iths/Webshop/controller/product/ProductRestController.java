@@ -73,4 +73,20 @@ public class ProductRestController {
     // Update operations
 
     // Delete operations
+
+    // Helpers
+
+    private Optional<ResponseEntity<String>> setRequestBodyPriceIfPresent(
+            Map<String, String> requestBody, Product product) {
+        String priceField = requestBody.get("price");
+        if (priceField != null) {
+            try {
+                product.setPrice(Integer.parseInt(priceField));
+            } catch (NumberFormatException e) {
+                return Optional.of(
+                        ResponseEntity.badRequest().body("Value of \"price\" must be an integer"));
+            }
+        }
+        return Optional.empty();
+    }
 }
