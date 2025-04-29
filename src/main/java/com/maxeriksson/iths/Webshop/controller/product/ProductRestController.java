@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,5 +105,16 @@ public class ProductRestController {
             } else product.setCategory(category.get());
         }
         return Optional.empty();
+    }
+
+    private void setRequestBodyForSaleIfPresent(Map<String, String> requestBody, Product product) {
+        String isForSale = requestBody.get("isForSale");
+        try {
+            product.setForSale(Integer.parseInt(isForSale) > 0);
+        } catch (NumberFormatException e) {
+            if (isForSale != null) {
+                product.setForSale(Boolean.parseBoolean(isForSale));
+            }
+        }
     }
 }
