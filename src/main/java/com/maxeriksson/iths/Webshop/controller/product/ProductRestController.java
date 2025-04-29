@@ -89,4 +89,19 @@ public class ProductRestController {
         }
         return Optional.empty();
     }
+
+    private Optional<ResponseEntity<String>> setRequestBodyCategoryIfPresent(
+            Map<String, String> requestBody, Product product) {
+        String categoryName = requestBody.get("category");
+        if (categoryName != null) {
+            Optional<Category> category = productService.getCategory(categoryName);
+            if (category.isEmpty()) {
+                List<String> categories = productService.getAllCategoryNames();
+                String body = "Not such Category exists\nAvailable categories:" + categories;
+                return Optional.of(ResponseEntity.badRequest().body(body));
+
+            } else product.setCategory(category.get());
+        }
+        return Optional.empty();
+    }
 }
