@@ -22,6 +22,10 @@ public class ProductService {
 
     public void add(Product product) {
         product.setForSale(true);
+        save(product);
+    }
+
+    public void save(Product product) {
         productRepository.save(product);
     }
 
