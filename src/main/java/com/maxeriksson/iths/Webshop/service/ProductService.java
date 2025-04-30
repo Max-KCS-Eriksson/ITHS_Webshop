@@ -6,6 +6,7 @@ import com.maxeriksson.iths.Webshop.repository.product.CategoryRepository;
 import com.maxeriksson.iths.Webshop.repository.product.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
@@ -73,6 +74,16 @@ public class ProductService {
     public void remove(Product product) {
         product.setForSale(false);
         productRepository.save(product);
+    }
+
+    public boolean delete(Product product) {
+        boolean success = true;
+        try {
+            productRepository.delete(product);
+        } catch (DataIntegrityViolationException e) {
+            success = false;
+        }
+        return success;
     }
 
     public void delete(Category category) {
