@@ -74,6 +74,32 @@ public class ProductRestController {
 
     // Update operations
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateProduct(
+            @PathVariable String id, @RequestBody Map<String, String> requestBody) {
+        Optional<Product> optional = productService.getProduct(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body("Cannot update nonexisting Product \"" + id + "\"");
+        }
+        Product product = optional.get();
+
+        Optional<ResponseEntity<String>> setPriceResponse =
+                setRequestBodyPriceIfPresent(requestBody, product);
+        boolean failedSetPrice = setPriceResponse.isPresent();
+        if (failedSetPrice) return setPriceResponse.get();
+
+        Optional<ResponseEntity<String>> setCategoryResponse =
+                setRequestBodyCategoryIfPresent(requestBody, product);
+        boolean failedSetCategory = setCategoryResponse.isPresent();
+        if (failedSetCategory) return setCategoryResponse.get();
+
+        setRequestBodyForSaleIfPresent(requestBody, product);
+
+        productService.save(product);
+        return ResponseEntity.ok().body(product);
+    }
+
     // Delete operations
 
     // Helpers
