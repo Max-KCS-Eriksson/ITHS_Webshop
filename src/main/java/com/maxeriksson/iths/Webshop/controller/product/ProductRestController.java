@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -44,18 +45,12 @@ public class ProductRestController {
         return ResponseEntity.ok().body(products);
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<?> getProductsByCategory(@RequestBody Map<String, String> requestBody) {
-        String categoryName = requestBody.get("category");
-        if (categoryName == null || categoryName.isBlank()) {
-            return ResponseEntity.badRequest().body("A \"category\" value must be given");
-        }
-
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Product>> getProductsByCategory(
+            @PathVariable("category") String categoryName) {
         Optional<Category> category = productService.getCategory(categoryName);
         if (category.isEmpty()) {
-            List<String> categories = productService.getAllCategoryNames();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Not such Category exists\nAvailable categories:" + categories);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         List<Product> products = productService.getProductsBy(category.get());
@@ -63,10 +58,9 @@ public class ProductRestController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchProductsByName(@RequestBody Map<String, String> requestBody) {
-        String name = requestBody.get("name");
-        if (name == null || name.isBlank()) {
-            return ResponseEntity.badRequest().body("A \"name\" value must be given");
+    public ResponseEntity<List<Product>> searchProductsByName(@RequestParam String name) {
+        if (name.isBlank()) {
+            return ResponseEntity.badRequest().build();
         }
 
         List<Product> products = productService.searchProductByName(name);
@@ -76,21 +70,20 @@ public class ProductRestController {
     // Update operations
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateProduct(
+    public ResponseEntity<Product> updateProduct(
             @PathVariable String id, @RequestBody Map<String, String> requestBody) {
         Optional<Product> optional = productService.getProduct(id);
         if (optional.isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body("Cannot update nonexisting Product \"" + id + "\"");
+            return ResponseEntity.badRequest().build();
         }
         Product product = optional.get();
 
-        Optional<ResponseEntity<String>> setPriceResponse =
+        Optional<ResponseEntity<Product>> setPriceResponse =
                 setRequestBodyPriceIfPresent(requestBody, product);
         boolean failedSetPrice = setPriceResponse.isPresent();
         if (failedSetPrice) return setPriceResponse.get();
 
-        Optional<ResponseEntity<String>> setCategoryResponse =
+        Optional<ResponseEntity<Product>> setCategoryResponse =
                 setRequestBodyCategoryIfPresent(requestBody, product);
         boolean failedSetCategory = setCategoryResponse.isPresent();
         if (failedSetCategory) return setCategoryResponse.get();
@@ -104,50 +97,42 @@ public class ProductRestController {
     // Delete operations
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<Product> deleteProduct(@PathVariable String id) {
         Optional<Product> optional = productService.getProduct(id);
         if (optional.isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body("Cannot delete nonexisting Product \"" + id + "\"");
+            return ResponseEntity.badRequest().build();
         }
         Product product = optional.get();
 
         boolean success = productService.delete(product);
         if (!success) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-                    .body(
-                            "Cannot delete Product \""
-                                    + id
-                                    + "\", likely due to it being referenced by other entities");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
         }
         return ResponseEntity.ok().body(product);
     }
 
     // Helpers
 
-    private Optional<ResponseEntity<String>> setRequestBodyPriceIfPresent(
+    private Optional<ResponseEntity<Product>> setRequestBodyPriceIfPresent(
             Map<String, String> requestBody, Product product) {
         String priceField = requestBody.get("price");
         if (priceField != null) {
             try {
                 product.setPrice(Integer.parseInt(priceField));
             } catch (NumberFormatException e) {
-                return Optional.of(
-                        ResponseEntity.badRequest().body("Value of \"price\" must be an integer"));
+                return Optional.of(ResponseEntity.badRequest().build());
             }
         }
         return Optional.empty();
     }
 
-    private Optional<ResponseEntity<String>> setRequestBodyCategoryIfPresent(
+    private Optional<ResponseEntity<Product>> setRequestBodyCategoryIfPresent(
             Map<String, String> requestBody, Product product) {
         String categoryName = requestBody.get("category");
         if (categoryName != null) {
             Optional<Category> category = productService.getCategory(categoryName);
             if (category.isEmpty()) {
-                List<String> categories = productService.getAllCategoryNames();
-                String body = "Not such Category exists\nAvailable categories:" + categories;
-                return Optional.of(ResponseEntity.badRequest().body(body));
+                return Optional.of(ResponseEntity.badRequest().build());
 
             } else product.setCategory(category.get());
         }
