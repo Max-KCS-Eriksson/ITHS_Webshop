@@ -7,6 +7,7 @@ import com.maxeriksson.iths.Webshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -101,6 +102,26 @@ public class ProductRestController {
     }
 
     // Delete operations
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable String id) {
+        Optional<Product> optional = productService.getProduct(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body("Cannot delete nonexisting Product \"" + id + "\"");
+        }
+        Product product = optional.get();
+
+        boolean success = productService.delete(product);
+        if (!success) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    .body(
+                            "Cannot delete Product \""
+                                    + id
+                                    + "\", likely due to it being referenced by other entities");
+        }
+        return ResponseEntity.ok().body(product);
+    }
 
     // Helpers
 
