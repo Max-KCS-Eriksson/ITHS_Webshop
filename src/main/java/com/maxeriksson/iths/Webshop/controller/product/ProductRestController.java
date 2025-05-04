@@ -45,6 +45,12 @@ public class ProductRestController {
         return ResponseEntity.ok().body(products);
     }
 
+    @GetMapping("/categories")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories = productService.getAllCategories();
+        return ResponseEntity.ok().body(categories);
+    }
+
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Product>> getProductsByCategory(
             @PathVariable("category") String categoryName) {
